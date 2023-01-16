@@ -1,2 +1,5 @@
 /data/raw/*
 logs/*
+
+.vscode
+__pycache__/
