@@ -10,7 +10,7 @@ from ray.tune.search.bohb import TuneBOHB
 
 from tentamen.data import datasets
 from tentamen.model import Accuracy, Linear
-from tentamen.settings import SearchSpace, presets
+from tentamen.settings import LinearSearchSpace, presets
 from tentamen.train import trainloop
 
 
@@ -41,7 +41,7 @@ def train(config: Dict) -> None:
 if __name__ == "__main__":
     ray.init()
 
-    config = SearchSpace(
+    config = LinearSearchSpace(
         input=13,
         output=20,
         tunedir=presets.logdir,
