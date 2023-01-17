@@ -7,6 +7,9 @@ run:
 tune: 
 	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/02_tune.py
 
+result: 
+	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/03_result.py
+
 format:
 	poetry run isort dev
 	poetry run black dev
