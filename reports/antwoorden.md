@@ -56,7 +56,7 @@ Een andere collega heeft alvast een hypertuning opgezet in `dev/scripts/02_tune.
 Implementeer de hypertuning voor jouw architectuur:
 - zorg dat je model geschikt is voor hypertuning
 - je mag je model nog wat aanpassen, als vraag 1d daar aanleiding toe geeft. Als je in 1d een ander model gebruikt dan hier, geef je model dan een andere naam zodat ik ze naast elkaar kan zien.
-- Stel dat je
+- Stel dat je data loader etc
 - voeg jouw model in op de juiste plek in de `tune.py` file.
 - maak een zoekruimte aan met behulp van pydantic (naar het voorbeeld van LinearSearchSpace), maar pas het aan voor jouw model.
 - Licht je keuzes toe: wat hypertune je, en wat niet? Waarom? En in welke ranges zoek je, en waarom? Zie ook de [docs van ray over search space](https://docs.ray.io/en/latest/tune/api_docs/search_space.html#tune-sample-docs) en voor [rondom search algoritmes](https://docs.ray.io/en/latest/tune/api_docs/suggestion.html#bohb-tune-search-bohb-tunebohb) voor meer opties en voorbeelden.

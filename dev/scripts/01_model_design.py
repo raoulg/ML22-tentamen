@@ -73,7 +73,7 @@ if __name__ == "__main__":
         model = AttentionGRU(config.dict())  # type: ignore
 
         trainedmodel = trainloop(
-            epochs=50,
+            epochs=20,
             model=model,  # type: ignore
             optimizer=torch.optim.Adam,
             learning_rate=1e-3,
