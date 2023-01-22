@@ -1,3 +1,5 @@
+import numpy as np
+
 from pathlib import Path
 from typing import Union
 
@@ -66,7 +68,7 @@ class GRUAttationConfig(BaseSearchSpace):
     hidden_size: int
     dropout: float
     num_layers: int
-    num_heads: int
+    # num_heads: int
     
 
 
@@ -76,7 +78,9 @@ class LinearSearchSpace(BaseSearchSpace):
     dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.5)
 
 class GRUAttationSearchSpace(BaseSearchSpace):
-    hidden_size: Union[int, SAMPLE_INT] = tune.randint(64, 256)
+    hidden_size: Union[int, SAMPLE_INT] = tune.qrandint(64, 256, 4)#tune.randint(64, 256)
     num_layers: Union[int, SAMPLE_INT] = tune.randint(2, 32)
-    num_heads: Union[int, SAMPLE_INT] = tune.randint(2, 32)
+    # num_heads: Union[int, SAMPLE_INT] = tune.randint(2, 32)
+    # num_heads: Union[int, SAMPLE_INT] = tune.sample_from(lambda _: np.random.randint(2,32)) #tune.randint(2, 32)
+    # hidden_size: Union[int, SAMPLE_INT] = tune.sample_from(lambda spec: spec.config.num_heads * np.random.randint(64,256))#tune.randint(64, 256)
     dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.2)
