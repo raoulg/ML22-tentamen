@@ -60,17 +60,17 @@ if __name__ == "__main__":
 
     trainstreamer, teststreamer = datasets.get_arabic(presets_GRUAtt)
 
-    from tentamen.model import AttentionGRU
+    from tentamen.model import GRUAttention
     from tentamen.settings import GRUAttationConfig
 
     configs = [
         GRUAttationConfig(
-            input=13, output=20, tunedir=presets_GRUAtt.logdir, hidden_size=100, num_layers=3, dropout=0.05
+            input=13, output=20, tunedir=presets_GRUAtt.logdir, hidden_size=100, num_layers=3, num_heads=4, dropout=0.05
         ),
     ]
 
     for config in configs:
-        model = AttentionGRU(config.dict())  # type: ignore
+        model = GRUAttention(config.dict())  # type: ignore
 
         trainedmodel = trainloop(
             epochs=20,

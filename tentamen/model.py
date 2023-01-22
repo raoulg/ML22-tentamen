@@ -33,7 +33,7 @@ class Linear(nn.Module):
         x = self.encoder(x)
         return x
     
-class AttentionGRU(nn.Module):
+class GRUAttention(nn.Module):
     def __init__(
         self,
         config: Dict,
