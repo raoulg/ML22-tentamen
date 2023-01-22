@@ -12,21 +12,37 @@ In `dev/scripts` vind je de file `01_model_design.py`.
 Het model in deze file heeft in de eerste hidden layer 100 units, in de tweede layer 10 units, dit heeft jouw collega ergens op stack overflow gevonden en hij had gelezen dat dit een goed model zou zijn.
 De dropout staat op 0.5, hij heeft in een blog gelezen dat dit de beste settings voor dropout zou zijn.
 
-- Wat vind je van de architectuur die hij heeft uitgekozen (een Neuraal netwerk met drie Linear layers)? Wat zijn sterke en zwakke kanten van een model als dit in het algemeen? En voor dit specifieke probleem?
+- Wat vind je van de architectuur die hij heeft uitgekozen (een Neuraal netwerk met drie Linear layers)? 
+gvh: Door te starten met een Linear layer wordt de informatie van volgoordelijkheid genegeerd. Daarnaast is de manier van dimensie reductie een stap waarme veel informatie wordt weggegooid.
+-Wat zijn sterke en zwakke kanten van een model als dit in het algemeen? 
+gvh: Linaire layer is goed voor gevectoriseerde data (2 dimenties in tensors)warvan de volgorde van de data of de positie van de argumenten geen relatie (meer) hebben met de target. Alleen de lostaande vector zegt wat over de target.
+-En voor dit specifieke probleem?
+gvh: Voor dit probleem heeft een extra dimensie tijd (3 dimenties in tensor) en een afhankelijkheid van de volgorde inde data wordt geintroduceerd. Eerst zal deze afhankelijkheid om een manier uit de set moeten worden gehaald voordat een linaire layer optimaal kan presteren.
 - Wat vind je van de keuzes die hij heeft gemaakt in de LinearConfig voor het aantal units ten opzichte van de data? En van de dropout?
+gvh: per gelacht en per digit, oftewel 1 categeroie, zijn 330 sets om deze mee te trainen. in het totaal zijn dit 6600 situatie Dit lijkt net genoeg data om een goed model te kunnen traien. Voor een grote dropout, zoals 0.5 moet data is overvloed zijn. De hoge drop lijkt hier niet goed te kunnen worden beargumenteerd. Daarnast is de layer dikte niet aflopend van groot naar klein (20 dit geval). Hierdoor wordt wederom informatie verloren.
+side note: in h1 bijna 8x zo groor als de input layer. als er geen doel is om de te decoden, heeft dit wijnig toegevoegde waarde.  
+
+input=13, output=20, tunedir=presets.logdir, h1=100, h2=10, dropout=0.5 
 
 ## 1b
 Als je in de forward methode van het Linear model kijkt (in `tentamen/model.py`) dan kun je zien dat het eerste dat hij doet `x.mean(dim=1)` is. 
 
 - Wat is het effect hiervan? Welk probleem probeert hij hier op te lossen? (maw, wat gaat er fout als hij dit niet doet?)
+gvh: Hiermee wordt het gemiddelede genomen van een feature (van de 13), oftewel de tijdreeks uit de data slaat hij plat en reduceert een dimensie
 - Hoe had hij dit ook kunnen oplossen?
+gvh: flatten()
 - Wat zijn voor een nadelen van de verschillende manieren om deze stap te doen?
+gvh:
+`x.mean(dim=1)`: reduceert het te trainen gewichten, wordt de trainingstijd sneller. Door het gemiddelde te nemen van zn lange tijdreeks wordt veel informatie weggegooid. 
+`flatten()`: De input layer krijgt veel units veel gewichten om te trainen. hiervoor is veel data nodig en is tenadelen van de trainingstijd. Echetr wordt hier geen informatie weggegooid
 
 ### 1c
 Omdat jij de cursus Machine Learning hebt gevolgd kun jij hem uitstekend uitleggen wat een betere architectuur zou zijn.
 
 - Beschrijf de architecturen die je kunt overwegen voor een probleem als dit. Het is voldoende als je beschrijft welke layers in welke combinaties je zou kunnen gebruiken.
+gvh: modellen met geheugen: 1d convolution, RNN, LSTM, GRU, Attention
 - Geef vervolgens een indicatie en motivatie voor het aantal units/filters/kernelsize etc voor elke laag die je gebruikt, en hoe je omgaat met overgangen (bv van 3 naar 2 dimensies). Een indicatie is bijvoorbeeld een educated guess voor een aantal units, plus een boven en ondergrens voor het aantal units. Met een motivatie laat je zien dat jouw keuze niet een random selectie is, maar dat je 1) andere problemen hebt gezien en dit probleem daartegen kunt afzetten en 2) een besef hebt van de consquenties van het kiezen van een range.
+gvh: 
 - Geef aan wat jij verwacht dat de meest veelbelovende architectuur is, en waarom (opnieuw, laat zien dat je niet random getallen noemt, of keuzes maakt, maar dat jij je keuze baseert op ervaring die je hebt opgedaan met andere problemen).
 
 ### 1d
