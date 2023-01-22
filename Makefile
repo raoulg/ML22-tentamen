@@ -2,7 +2,7 @@
 .DEFAULT: run
 
 run:	
-	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/01_model_design.py
+	export PYTHONPATH="$$\Users\gvanh\Git_documents\ML22-tentamen" ;poetry run python dev/scripts/01_model_design.py
 
 tune: 
 	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/02_tune.py

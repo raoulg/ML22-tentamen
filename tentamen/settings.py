@@ -35,6 +35,17 @@ presets = Settings(
     batchsize=128,
 )
 
+presets_GRUAtt = Settings(
+    datadir=root / "data/raw",
+    testurl="https://archive.ics.uci.edu/ml/machine-learning-databases/00195/Test_Arabic_Digit.txt",  # noqa N501
+    trainurl="https://archive.ics.uci.edu/ml/machine-learning-databases/00195/Train_Arabic_Digit.txt",  # noqa N501
+    testfile=Path("ArabicTest.txt"),
+    trainfile=Path("ArabicTrain.txt"),
+    modeldir=root / "models",
+    logdir=root / "logsGRUAtt",
+    modelname="GRUAtt.pt",
+    batchsize=32,
+)
 
 class BaseSearchSpace(BaseModel):
     input: int
@@ -49,6 +60,12 @@ class LinearConfig(BaseSearchSpace):
     h1: int
     h2: int
     dropout: float
+
+
+class GRUAttationConfig(BaseSearchSpace):
+    hidden_size: int
+    dropout: float
+    num_layers: int
 
 
 class LinearSearchSpace(BaseSearchSpace):
