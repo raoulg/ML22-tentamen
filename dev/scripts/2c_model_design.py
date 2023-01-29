@@ -26,15 +26,16 @@ if __name__ == "__main__":
 
     configs = [
         GRUAttationConfig(
-            input=13, output=20, tunedir=presets_GRUAtt.logdir, hidden_size=100, num_layers=3, num_heads=4, dropout=0.05
+            input=13, output=20, tunedir=presets_GRUAtt.logdir, hidden_size=160, num_layers=2, num_heads=2, dropout=0.02
         ),
     ]
+
 
     for config in configs:
         model = GRUAttention(config.dict())  # type: ignore
 
         trainedmodel = trainloop(
-            epochs=20,
+            epochs=25,
             model=model,  # type: ignore
             optimizer=torch.optim.Adam,
             learning_rate=1e-3,
@@ -45,6 +46,8 @@ if __name__ == "__main__":
             log_dir=presets_GRUAtt.logdir,
             train_steps=len(trainstreamer),
             eval_steps=len(teststreamer),
+            patience=2,
+            factor=0.5,
 
         )
 
@@ -52,36 +55,3 @@ if __name__ == "__main__":
         path = presets_GRUAtt.modeldir / (timestamp + presets_GRUAtt.modelname)
         logger.info(f"save model to {path}")
         torch.save(trainedmodel, path)
-
-
-        # from tentamen.model import Linear
-    # from tentamen.settings import LinearConfig
-
-    # configs = [
-    #     LinearConfig(
-    #         input=13, output=20, tunedir=presets.logdir, h1=100, h2=10, dropout=0.5
-    #     ),
-    # ]
-
-    # for config in configs:
-    #     model = Linear(config.dict())  # type: ignore
-
-    #     trainedmodel = trainloop(
-    #         epochs=50,
-    #         model=model,  # type: ignore
-    #         optimizer=torch.optim.Adam,
-    #         learning_rate=1e-3,
-    #         loss_fn=torch.nn.CrossEntropyLoss(),
-    #         metrics=[Accuracy()],
-    #         train_dataloader=trainstreamer.stream(),
-    #         test_dataloader=teststreamer.stream(),
-    #         log_dir=presets.logdir,
-    #         train_steps=len(trainstreamer),
-    #         eval_steps=len(teststreamer),
-    #     )
-
-    #     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    #     path = presets.modeldir / (timestamp + presets.modelname)
-    #     logger.info(f"save model to {path}")
-    #     torch.save(trainedmodel, path)
-

@@ -3,7 +3,7 @@ from loguru import logger
 
 from tentamen.data import datasets
 from tentamen.model import Accuracy
-from tentamen.settings import presets
+from tentamen.settings import presets_GRUAtt as presets
 from tentamen.train import evalbatches
 
 if __name__ == "__main__":

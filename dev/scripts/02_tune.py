@@ -24,7 +24,7 @@ def train(config: Dict) -> None:
     model = GRUAttention(config)  # type: ignore
 
     trainloop(
-        epochs=30,
+        epochs=25,
         model=model,  # type: ignore
         optimizer=torch.optim.Adam,
         learning_rate=1e-3,
@@ -36,6 +36,8 @@ def train(config: Dict) -> None:
         train_steps=len(trainstreamer),
         eval_steps=len(teststreamer),
         tunewriter=True,
+        patience=4,
+        factor=0.5,
     )
 
 
@@ -67,7 +69,7 @@ if __name__ == "__main__":
         mode="min",
         progress_reporter=reporter,
         local_dir=config.tunedir,
-        num_samples=20,
+        num_samples=40,
         search_alg=bohb_search,
         scheduler=bohb_hyperband,
         verbose=1,

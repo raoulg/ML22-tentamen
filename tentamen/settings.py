@@ -78,11 +78,11 @@ class LinearSearchSpace(BaseSearchSpace):
     dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.5)
 
 class GRUAttationSearchSpace(BaseSearchSpace):
-    hidden_size: Union[int, SAMPLE_INT] = tune.qrandint(50, 200, 2)#tune.randint(64, 256)
-    num_layers: Union[int, SAMPLE_INT] = tune.randint(2, 10)
+    hidden_size: Union[int, SAMPLE_INT] = tune.qrandint(64, 304, 16)#tune.randint(64, 256)
+    num_layers: Union[int, SAMPLE_INT] = tune.randint(1, 16)
     # num_heads: Union[int, SAMPLE_INT] = tune.randint(2, 32)
-    num_heads: Union[int, SAMPLE_INT] = tune.qrandint(2, 8, 2)
+    num_heads: Union[int, SAMPLE_INT] = tune.choice([2, 4, 8])#tune.qrandint(2, 8, 2)
     # num_heads: Union[int, SAMPLE_INT] = tune.sample_from(lambda _: np.random.randint(2,32)) #tune.randint(2, 32)
     # hidden_size: Union[int, SAMPLE_INT] = tune.sample_from(lambda spec: spec.config.num_heads * np.random.randint(64,256))#tune.randint(64, 256)
-    dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.15)
+    dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.2)
 
