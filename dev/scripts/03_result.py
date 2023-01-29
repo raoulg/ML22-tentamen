@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     trainstreamer, teststreamer = datasets.get_arabic(presets)
 
-    timestamp = "20230117-183154"
+    timestamp = "20230129-092207"
     path = presets.modeldir / (timestamp + presets.modelname)
     logger.info(f"loading model from {path}")
     model = torch.load(path)
