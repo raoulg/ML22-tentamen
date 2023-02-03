@@ -9,17 +9,17 @@ from ray.tune.schedulers.hb_bohb import HyperBandForBOHB
 from ray.tune.search.bohb import TuneBOHB
 
 from tentamen.data import datasets
-from tentamen.model import Accuracy, Linear, GRUAttention
-from tentamen.settings import LinearSearchSpace, GRUAttationSearchSpace #, presets
-from tentamen.settings import presets_GRUAtt as presets
+from tentamen.model import Accuracy, GRUAttention
+from tentamen.settings import GRUAttationSearchSpace
+from tentamen.settings import presets_gruatt
 from tentamen.train import trainloop
 
 
 def train(config: Dict) -> None:
-    datadir = presets.datadir
+    datadir = presets_gruatt.datadir
 
     with FileLock(datadir / ".lock"):
-        trainstreamer, teststreamer = datasets.get_arabic(presets)
+        trainstreamer, teststreamer = datasets.get_arabic(presets_gruatt)
 
     model = GRUAttention(config)  # type: ignore
 
@@ -32,7 +32,7 @@ def train(config: Dict) -> None:
         metrics=[Accuracy()],
         train_dataloader=trainstreamer.stream(),
         test_dataloader=teststreamer.stream(),
-        log_dir=presets.logdir,
+        log_dir=presets_gruatt.logdir,
         train_steps=len(trainstreamer),
         eval_steps=len(teststreamer),
         tunewriter=True,
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     config = GRUAttationSearchSpace(
         input=13,
         output=20,
-        tunedir=presets.logdir,
+        tunedir=presets_gruatt.logdir,
     )
 
     reporter = CLIReporter()
