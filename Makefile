@@ -2,13 +2,13 @@
 .DEFAULT: run
 
 run:	
-	export PYTHONPATH="$$\Users\gvanh\Git_documents\ML22-tentamen" ;poetry run python dev/scripts/01_model_design.py
+	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/01_model_design.py
 
 tune: 
 	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/02_tune.py
 
 run_final_model:	
-	export PYTHONPATH="$$\Users\gvanh\Git_documents\ML22-tentamen" ;poetry run python dev/scripts/2c_model_design.py
+	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/2c_model_design.py
 
 result: 
 	export PYTHONPATH="$$HOME/code/tentamen" ;poetry run python dev/scripts/03_result.py
