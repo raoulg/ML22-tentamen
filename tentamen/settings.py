@@ -1,5 +1,3 @@
-import numpy as np
-
 from pathlib import Path
 from typing import Union
 
@@ -37,7 +35,7 @@ presets = Settings(
     batchsize=128,
 )
 
-presets_GRUAtt = Settings(
+presets_gruatt = Settings(
     datadir=root / "data/raw",
     testurl="https://archive.ics.uci.edu/ml/machine-learning-databases/00195/Test_Arabic_Digit.txt",  # noqa N501
     trainurl="https://archive.ics.uci.edu/ml/machine-learning-databases/00195/Train_Arabic_Digit.txt",  # noqa N501
@@ -48,6 +46,7 @@ presets_GRUAtt = Settings(
     modelname="GRUAtt.pt",
     batchsize=32,
 )
+
 
 class BaseSearchSpace(BaseModel):
     input: int
@@ -69,7 +68,6 @@ class GRUAttationConfig(BaseSearchSpace):
     dropout: float
     num_layers: int
     num_heads: int
-    
 
 
 class LinearSearchSpace(BaseSearchSpace):
@@ -77,9 +75,9 @@ class LinearSearchSpace(BaseSearchSpace):
     h2: Union[int, SAMPLE_INT] = tune.randint(16, 128)
     dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.5)
 
+
 class GRUAttationSearchSpace(BaseSearchSpace):
     hidden_size: Union[int, SAMPLE_INT] = tune.qrandint(64, 192, 16)
     num_layers: Union[int, SAMPLE_INT] = tune.randint(1, 4)
     num_heads: Union[int, SAMPLE_INT] = tune.choice([2, 4, 8])
     dropout: Union[float, SAMPLE_FLOAT] = tune.uniform(0.0, 0.1)
-

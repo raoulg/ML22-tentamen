@@ -32,7 +32,8 @@ class Linear(nn.Module):
         x = x.mean(dim=1)
         x = self.encoder(x)
         return x
-    
+
+
 class GRUAttention(nn.Module):
     def __init__(
         self,
@@ -48,7 +49,7 @@ class GRUAttention(nn.Module):
         )
         self.attention = nn.MultiheadAttention(
             embed_dim=config["hidden_size"],
-            num_heads=config["num_heads"], 
+            num_heads=config["num_heads"],
             dropout=config["dropout"],
             batch_first=True,
         )

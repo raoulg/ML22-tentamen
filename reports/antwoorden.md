@@ -138,27 +138,23 @@ Implementeer de hypertuning voor jouw architectuur:
 - Licht je keuzes toe: wat hypertune je, en wat niet? Waarom? En in welke ranges zoek je, en waarom? Zie ook de [docs van ray over search space](https://docs.ray.io/en/latest/tune/api_docs/search_space.html#tune-sample-docs) en voor [rondom search algoritmes](https://docs.ray.io/en/latest/tune/api_docs/suggestion.html#bohb-tune-search-bohb-tunebohb) voor meer opties en voorbeelden.
 
 
-GVH: Over het algemeen zijn naar de parameter gezocht waardoor het model relaief complexer wordt. Uiteraard is ook gezocht naar lagere instellinegn voor minder complexiteit. Hieronder de instellingen met toelichting.
+GVH: Over het algemeen zijn naar de parameter gezocht waardoor het model relaief complexer wordt. Ook is gezocht naar instellinegen waardoor het model minder complex wordt. Hieronder de instellingen met toelichting:
 
-Num_head wordt hier niet vrij onderzocht, omdat embed_dim (hidden_size) altijd deelbaar moet zijn door de Num_head. Het is mogelijk om een afhankelijkheid van elkaar in te bouwen tussen num_heads en hidden-sizes, echter kan dit niet samen met de TuneBOHB. Hierom is gekozen voor range [2, 4, 8]. Met de qrandint functie zal de hidden_size alleen maar stappen van 16 nemen, wat immers deelbaar is door 2,4 en 8.
+De parameter Num_head is hier niet onafhankelijk onderzocht, omdat embed_dim (hidden_size) altijd door Num_head deelbaar moet zijn. Het is mogelijk om een afhankelijkheid te creëren tussen num_heads en hidden-sizes, maar dit is niet mogelijk in combinatie met TuneBOHB. Daarom is gekozen voor een bereik van [2, 4, 8]. Met de qrandint functie zal de hidden_size alleen stappen van 16 nemen, wat deelbaar is door 2, 4 en 8.
 
-De volgende ranges zijn gekozen:
+De volgende bereiken zijn geselecteerd:
 
-    hidden_size: tune.qrandint(64, 288, 16)
+hidden_size: tune.qrandint(64, 288, 16)
+De hidden size 100 presteert goed. Er wordt onderzocht of het model nog complexer kan worden en misschien minder complex. In de vorige vraag bleek dat een grotere hidden_size kan leiden tot verbetering van de prestaties. qrandint wordt gebruikt omdat hidden_size ook staat voor embed_dim en deze parameter moet deelbaar zijn door het aantal heads.
 
-    Hidden size 100 heeft een goede perfomance. er wordt onderzocht dat voor het model complexer kan worden en wellicht minder complex. In de vorige vraag lief zien dat een grotere hidden_size performance verbetering kan geven. qrandint wordt gebruikt omdat de hidden size, ook staat voor embed_dim en deze parameter moet deelbaar zijn door de number of heads. 
+num_layers: tune.randint(1, 15)
+Veel lagen maken het model complex. Hierdoor heeft het model meer epochs nodig om een hogere nauwkeurigheid te bereiken. Hierdoor zullen deze runs ook sneller beëindigd worden omdat ze niet snel goed presteren. Bovendien kan het model overfitting krijgen door de vele parameters. Dit is in de vorige vraag getoond.
 
-    num_layers:  tune.randint(1, 15)
+num_heads: tune.choice([2, 4, 8])
+Het aantal 4 geeft al goede resultaten. Door de afhankelijkheid met hidden_size is deze lastiger te optimaliseren met de huidige instelling. Daarom is gekozen voor dit bereik, aangezien het deelbaar is door 16.
 
-    Veel layers maakt het model complex. Hierdoor heeft het model meer epoch nodig om hogere accuarcy te krijgen. Hierdoor zullen deze run ook sneller wordt termineted, want ze spresteren niet snel goed. Daarnaast kan het model gaan over fitten door de vele parameters. Dit is is de vorige vraag getoond.
-
-    num_heads:  tune.choice([2, 4, 8])
-
-    het aantal 4 geeft al goede resultaten. door de afhankelijkheid met hidden size is deze llastiger  te hypertunen met de huidge instelling. vandaar deze range, immers deelbaar door 16. 
-
-    dropout:  tune.uniform(0.0, 0.2)
-
-    een dropout van 0.05 werkt goed. daarnaast is ook niet een overmaat aan data beschikbaar. hierdoor is een max van 20% gekozen.
+dropout: tune.uniform(0.0, 0.2)
+Een dropout van 0.05 werkt goed. Bovendien is er niet te veel data beschikbaar. Daarom is een maximum van 20% gekozen.
 
 
 
@@ -185,6 +181,8 @@ Met de Ray tuning is een accuracy van bijna 99% behaald. De beste prestaties wor
 
 ### 2c
 - Zorg dat jouw prijswinnende settings in een config komen te staan in `settings.py`, en train daarmee een model met een optimaal aantal epochs, daarvoor kun je `01_model_design.py` kopieren en hernoemen naar `2c_model_design.py`.
+
+GVH: Het model staat klaar. met 03_result.py kan het model worden getest.
 
 ## Vraag 3
 ### 3a
