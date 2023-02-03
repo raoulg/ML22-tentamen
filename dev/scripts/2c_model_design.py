@@ -9,12 +9,6 @@ from tentamen.settings import presets
 from tentamen.settings import presets_GRUAtt
 from tentamen.train import trainloop
 
-if __name__ == "__main__":
-    logger.add(presets.logdir / "01.log")
-
-    trainstreamer, teststreamer = datasets.get_arabic(presets)
-
-    
 
 if __name__ == "__main__":
     logger.add(presets_GRUAtt.logdir / "01.log")
@@ -46,7 +40,7 @@ if __name__ == "__main__":
             log_dir=presets_GRUAtt.logdir,
             train_steps=len(trainstreamer),
             eval_steps=len(teststreamer),
-            patience=2,
+            patience=4,
             factor=0.5,
 
         )

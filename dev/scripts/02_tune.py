@@ -24,10 +24,10 @@ def train(config: Dict) -> None:
     model = GRUAttention(config)  # type: ignore
 
     trainloop(
-        epochs=25,
+        epochs=50,
         model=model,  # type: ignore
         optimizer=torch.optim.Adam,
-        learning_rate=1e-3,
+        learning_rate=0.001,
         loss_fn=torch.nn.CrossEntropyLoss(),
         metrics=[Accuracy()],
         train_dataloader=trainstreamer.stream(),
@@ -36,7 +36,7 @@ def train(config: Dict) -> None:
         train_steps=len(trainstreamer),
         eval_steps=len(teststreamer),
         tunewriter=True,
-        patience=4,
+        patience=3,
         factor=0.5,
     )
 
@@ -55,8 +55,8 @@ if __name__ == "__main__":
 
     bohb_hyperband = HyperBandForBOHB(
         time_attr="training_iteration",
-        max_t=30,
-        reduction_factor=3,
+        max_t=50,
+        reduction_factor=5,
         stop_last_trials=False,
     )
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         mode="min",
         progress_reporter=reporter,
         local_dir=config.tunedir,
-        num_samples=40,
+        num_samples=50,
         search_alg=bohb_search,
         scheduler=bohb_hyperband,
         verbose=1,

@@ -13,37 +13,72 @@ Het model in deze file heeft in de eerste hidden layer 100 units, in de tweede l
 De dropout staat op 0.5, hij heeft in een blog gelezen dat dit de beste settings voor dropout zou zijn.
 
 - Wat vind je van de architectuur die hij heeft uitgekozen (een Neuraal netwerk met drie Linear layers)? 
-gvh: Door te starten met een Linear layer wordt de informatie van volgoordelijkheid genegeerd. Daarnaast is de manier van dimensie reductie een stap waarme veel informatie wordt weggegooid.
--Wat zijn sterke en zwakke kanten van een model als dit in het algemeen? 
-gvh: Linaire layer is goed voor gevectoriseerde data (2 dimenties in tensors)warvan de volgorde van de data of de positie van de argumenten geen relatie (meer) hebben met de target. Alleen de lostaande vector zegt wat over de target.
--En voor dit specifieke probleem?
-gvh: Voor dit probleem heeft een extra dimensie tijd (3 dimenties in tensor) en een afhankelijkheid van de volgorde inde data wordt geintroduceerd. Eerst zal deze afhankelijkheid om een manier uit de set moeten worden gehaald voordat een linaire layer optimaal kan presteren.
-- Wat vind je van de keuzes die hij heeft gemaakt in de LinearConfig voor het aantal units ten opzichte van de data? En van de dropout?
-gvh: per gelacht en per digit, oftewel 1 categeroie, zijn 330 sets om deze mee te trainen. in het totaal zijn dit 6600 situatie Dit lijkt net genoeg data om een goed model te kunnen traien. Voor een grote dropout, zoals 0.5 moet data is overvloed zijn. De hoge drop lijkt hier niet goed te kunnen worden beargumenteerd. Daarnast is de layer dikte niet aflopend van groot naar klein (20 dit geval). Hierdoor wordt wederom informatie verloren.
-side note: in h1 bijna 8x zo groor als de input layer. als er geen doel is om de te decoden, heeft dit wijnig toegevoegde waarde.  
 
-input=13, output=20, tunedir=presets.logdir, h1=100, h2=10, dropout=0.5 
+GVH: Het gebruik van een Linear layer leidt niet tot optimale benutting van de informatie van de tijdsvolgorde. Bovendien is de dimensieverminderende stap, een stap waarbij veel informatie verloren gaat.
+
+- Wat zijn sterke en zwakke kanten van een model als dit in het algemeen? 
+
+GVH: Een Linear layer is geschikt voor gevectoriseerde data (met twee dimensies in tensors) waarbij de (tijds)volgordelijkheid in de data geen invloed (meer) heeft op de doelwaarde. Alleen de afzonderlijke vector geeft informatie over de doelwaarde.
+
+- En voor dit specifieke probleem?
+
+GVH: In dit geval is er een extra dimensie aanwezig, tijd (3 dimensies in tensor), hierdoor speelt er een afhankelijkheid van de volgorde van het aanbieden van de data. Voordat een Linear layer optimaal kan functioneren, moet deze afhankelijkheid op een passende manier worden vertaald naar een of meerder variabelen. oftewel van 3 naar 2 dimensies gaan. Bovendien is de unitaantal niet afnemend van groot naar klein (in dit geval van 10 naar 20), waardoor er opnieuw informatie verloren gaat. De tweede hidden layers heeft 10 units, wat minimaal even groot zou moeten zijn als de output layer om informatieverlies te voorkomen.
+
+- Wat vind je van de keuzes die hij heeft gemaakt in de LinearConfig voor het aantal units ten opzichte van de data? En van de dropout?
+
+GVH: Er zijn 330 sets per categorie op basis van geslacht en cijfer, wat in totaal 6600 situaties oplevert. Dit lijkt voldoende data om een goed model te trainen. Echter, voor een hoge dropout, zoals 0.5, is meer trainingsdata nodig. De hoge dropout lijkt hier niet verantwoord te zijn. Met betrekking tot de dropout in verhouding tot de laagdikte is de eerste hidden layer in orde. Echter, de tweede hidden layer van 10 units is te klein. Dit betekent dat het model met 5 fuctionele units in staat is 20 labels te classificeren. Theoretisch kan dit wel, alleen is het niet optimaal.
+
+
 
 ## 1b
 Als je in de forward methode van het Linear model kijkt (in `tentamen/model.py`) dan kun je zien dat het eerste dat hij doet `x.mean(dim=1)` is. 
 
 - Wat is het effect hiervan? Welk probleem probeert hij hier op te lossen? (maw, wat gaat er fout als hij dit niet doet?)
-gvh: Hiermee wordt het gemiddelede genomen van een feature (van de 13), oftewel de tijdreeks uit de data slaat hij plat en reduceert een dimensie
+
+GVH: Door middel hiervan wordt het gemiddelde genomen van een feature over de tijd (13 features), wat betekent dat de tijdreeks plat wordt gemaakt en een dimensie wordt gereduceerd, en de variabele tijdlengte wordt geëlimineerd.
+
 - Hoe had hij dit ook kunnen oplossen?
-gvh: flatten()
+
+GVH: De flatten()-methode en daarbij moeten alle sets even lang worden gamaakt als de langste tijdreeks in de dataset en de lege plaatsen op te vullen met bijvoorbeeld 0. Of door alle sets af te knippen naar de kortste dataset.
+
 - Wat zijn voor een nadelen van de verschillende manieren om deze stap te doen?
-gvh:
-`x.mean(dim=1)`: reduceert het te trainen gewichten, wordt de trainingstijd sneller. Door het gemiddelde te nemen van zn lange tijdreeks wordt veel informatie weggegooid. 
-`flatten()`: De input layer krijgt veel units veel gewichten om te trainen. hiervoor is veel data nodig en is tenadelen van de trainingstijd. Echetr wordt hier geen informatie weggegooid
+
+GVH: `x.mean(dim=1)` reduceert het aantal te trainen gewichten, waardoor de trainingssnelheid verhoogt. Maar door het nemen van het gemiddelde van de lange tijdreeks wordt veel informatie verloren.
+`flatten()` geeft de input layer veel units en gewichten om te trainen, waardoor veel data nodig is en de trainingsduur verlengt wordt. Het risico op overfitting wordt ook groter. Echter, wordt er hier geen informatie verloren
 
 ### 1c
 Omdat jij de cursus Machine Learning hebt gevolgd kun jij hem uitstekend uitleggen wat een betere architectuur zou zijn.
 
 - Beschrijf de architecturen die je kunt overwegen voor een probleem als dit. Het is voldoende als je beschrijft welke layers in welke combinaties je zou kunnen gebruiken.
-gvh: modellen met geheugen: 1d convolution, RNN, LSTM, GRU, Attention
+
+GVH: Modellen met geheugen, zoals 1D-convolution, RNN, LSTM, GRU en Attention, kunnen tijd als extra dimensie verwerken. Deze lagen kunnen apart of samen gebruikt worden en moeten eindigen met een dense layer om de dimensie te reduceren (van 3 naar 2) voor classificatie. Bij 1D-convolution en Attention moet de tijdsreekslengte constant zijn of worden gamaakt.
+
+Combineren van RNN, LSTM en GRU heeft minder voordelen omdat ze op een vergelijkbaar principe werken en de ene de evolutie is van de andere. RNN is het minst geschikt van de drie voor deze taak, omdat de tijdsreeksen ongeveer 60 tot 90 stappen groot zijn en het geheugen van een RNN beperkt is, waardoor de prestaties waarschijnlijk minder goed zullen zijn.
+
+
+
 - Geef vervolgens een indicatie en motivatie voor het aantal units/filters/kernelsize etc voor elke laag die je gebruikt, en hoe je omgaat met overgangen (bv van 3 naar 2 dimensies). Een indicatie is bijvoorbeeld een educated guess voor een aantal units, plus een boven en ondergrens voor het aantal units. Met een motivatie laat je zien dat jouw keuze niet een random selectie is, maar dat je 1) andere problemen hebt gezien en dit probleem daartegen kunt afzetten en 2) een besef hebt van de consquenties van het kiezen van een range.
-gvh: 
+
+GVH: In dit voorbeeld wordt het gestures-probleem gebruikt. Het probleem lijkt op elkaar, maar heeft een langere tijdsreeks, meer features en het moet twee keer zoveel labels classificeren. Het probleem en de data is dus relatief complexer en verwacht wordt dat de parameters hoger liggen. De instellingen waarbij een goed resultaat wordt verwacht zijn:
+
+hidden_size=100, num_layers=3, num_heads=4, dropout=0.05
+
+Deze parameters kunnen variëren binnen de volgende bereiken:
+
+hidden_size=50-250, num_layers=1-15, num_heads=1-10, dropout=0-0.2
+
+
+
 - Geef aan wat jij verwacht dat de meest veelbelovende architectuur is, en waarom (opnieuw, laat zien dat je niet random getallen noemt, of keuzes maakt, maar dat jij je keuze baseert op ervaring die je hebt opgedaan met andere problemen).
+
+GVH: Een goede opzet zou zijn om GRU, Attention en een dense layer te gebruiken, met het gestures-probleem als voorbeeld.
+
+De input is 13: Per tijdseenheid zijn 13 features beschikbaar.
+De output is 20: 10 digit per geslacht leidt tot 10 * 2 = 20 classificaties.
+De hidden_size is 100,
+de num_layers zijn 3,
+de num_heads zijn 4 
+en de dropout is 0.05.
 
 ### 1d
 Implementeer jouw veelbelovende model: 
@@ -54,16 +89,41 @@ Implementeer jouw veelbelovende model:
 - Rapporteer je bevindingen. Ga hier niet te uitgebreid hypertunen (dat is vraag 2), maar rapporteer (met een afbeelding in `antwoorden/img` die je linkt naar jouw .md antwoord) voor bijvoorbeeld drie verschillende parametersets hoe de train/test loss curve verloopt.
 - reflecteer op deze eerste verkenning van je model. Wat valt op, wat vind je interessant, wat had je niet verwacht, welk inzicht neem je mee naar de hypertuning.
 
-Hieronder een voorbeeld hoe je een plaatje met caption zou kunnen invoegen.
+GVH: Om te beginnen is het model getraind met de voorgestelde parameters: hidden_size=100, num_layers=3, num_heads=4 en dropout=0.05. Zie het resultaat hieronder. Zie het resultaat hieronder in Fig 1.
 
 <figure>
   <p align = "center">
-    <img src="img/motivational.png" style="width:50%">
+    <img src="img/GRUAtt_init.png" style="width:100%">
     <figcaption align="center">
-      <b> Fig 1.Een motivational poster voor studenten Machine Learning (Stable Diffusion)</b>
+      <b> Fig 1. GRUAtt met hidden_size=100 num_layers=3 num_heads=4 dropout=0.05</b>
     </figcaption>
   </p>
 </figure>
+
+In Fig 1 valt op dat het model het goed doet, met een accuracy van 0.975 na ongeveer 17 epochs. Dit betekent dat de instellingen al goed zijn. Tevens is te zien dat het model te weinig epochs heeft getraind, aangezien de loss nog aan het dalen is en de accuracy nog aan het stijgen. Het optimale aantal epochs is bereikt wanneer zowel de train-, testloss-  en de accuracy-lijnen een horizontaal zijn. Echter, moet eerder worden gestopt met rainen als de test-loss begint te stijgen en de train-loss nog aan het dalen is. Dit is het teken van overfitten. 
+
+Hieronder is gekeken wat de invloed is om de parameters te verhogen. Het gaat om de dropout aantal hidden layers, omdat embed_dim (hidden_size) altijd deelbaar moet zijn door de Num_head. Hierdoor is alleen een kleine range mogelijk. In vraag 2 wordt hierop terugekomen.
+
+Hieronder is onderzocht welke invloed het verhogen van de parameters heeft. Het betreft het dropout-aantal en het aantal hidden size en num_layers, omdat de dimensie van de hidden_size altijd deelbaar moet zijn door het aantal Num_heads is deze vast gezet. In vraag 2 wordt hierop terugekomen.
+
+De volgende runs zijn in Fig 2 te zien:
+
+Blauw: hidden_size=100, num_layers=3, num_heads=4, dropout=0.05
+Rood: hidden_size=100, num_layers=3, num_heads=4, dropout=0.3
+Groen: hidden_size=100, num_layers=15, num_heads=4, dropout=0.05
+Grijs: hidden_size=300, num_layers=3, num_heads=4, dropout=0.05
+
+<figure>
+  <p align = "center">
+    <img src="img/GRUAtt_multiple.png" style="width:100%">
+    <figcaption align="center">
+      <b> Fig 2. GRUAtt</b>
+    </figcaption>
+  </p>
+</figure>
+
+In fig 2 valt op dat de lijnen van Blauw en Rood redelijk gelijk zijn. Echter, lijkt een relatief hoog aantal num_layers slecht te presteren en over te fitten, omdat de test-loss (ongeziende data) stijgt terwijl de train-loss daalt. De grijze lijn met meer hidden sizes lijkt het relatief beter te doen, namelijk een lagere loss op de testset en een hoger gemiddelde accuracy over het aantal epochs. Hieruit kan worden geconcludeerd dat het optimale aantal verstopt formaat waarschijnlijk groter is dan 100 en het aantal lagen kleiner dan 15. De dropout-grootte tot 30% lijkt niet veel impact te hebben.
+
 
 ## Vraag 2
 Een andere collega heeft alvast een hypertuning opgezet in `dev/scripts/02_tune.py`.
@@ -77,11 +137,51 @@ Implementeer de hypertuning voor jouw architectuur:
 - maak een zoekruimte aan met behulp van pydantic (naar het voorbeeld van LinearSearchSpace), maar pas het aan voor jouw model.
 - Licht je keuzes toe: wat hypertune je, en wat niet? Waarom? En in welke ranges zoek je, en waarom? Zie ook de [docs van ray over search space](https://docs.ray.io/en/latest/tune/api_docs/search_space.html#tune-sample-docs) en voor [rondom search algoritmes](https://docs.ray.io/en/latest/tune/api_docs/suggestion.html#bohb-tune-search-bohb-tunebohb) voor meer opties en voorbeelden.
 
+
+GVH: Over het algemeen zijn naar de parameter gezocht waardoor het model relaief complexer wordt. Uiteraard is ook gezocht naar lagere instellinegn voor minder complexiteit. Hieronder de instellingen met toelichting.
+
+Num_head wordt hier niet vrij onderzocht, omdat embed_dim (hidden_size) altijd deelbaar moet zijn door de Num_head. Het is mogelijk om een afhankelijkheid van elkaar in te bouwen tussen num_heads en hidden-sizes, echter kan dit niet samen met de TuneBOHB. Hierom is gekozen voor range [2, 4, 8]. Met de qrandint functie zal de hidden_size alleen maar stappen van 16 nemen, wat immers deelbaar is door 2,4 en 8.
+
+De volgende ranges zijn gekozen:
+
+    hidden_size: tune.qrandint(64, 288, 16)
+
+    Hidden size 100 heeft een goede perfomance. er wordt onderzocht dat voor het model complexer kan worden en wellicht minder complex. In de vorige vraag lief zien dat een grotere hidden_size performance verbetering kan geven. qrandint wordt gebruikt omdat de hidden size, ook staat voor embed_dim en deze parameter moet deelbaar zijn door de number of heads. 
+
+    num_layers:  tune.randint(1, 15)
+
+    Veel layers maakt het model complex. Hierdoor heeft het model meer epoch nodig om hogere accuarcy te krijgen. Hierdoor zullen deze run ook sneller wordt termineted, want ze spresteren niet snel goed. Daarnaast kan het model gaan over fitten door de vele parameters. Dit is is de vorige vraag getoond.
+
+    num_heads:  tune.choice([2, 4, 8])
+
+    het aantal 4 geeft al goede resultaten. door de afhankelijkheid met hidden size is deze llastiger  te hypertunen met de huidge instelling. vandaar deze range, immers deelbaar door 16. 
+
+    dropout:  tune.uniform(0.0, 0.2)
+
+    een dropout van 0.05 werkt goed. daarnaast is ook niet een overmaat aan data beschikbaar. hierdoor is een max van 20% gekozen.
+
+
+
 ### 2b
 - Analyseer de resultaten van jouw hypertuning; visualiseer de parameters van jouw hypertuning en sla het resultaat van die visualisatie op in `reports/img`. Suggesties: `parallel_coordinates` kan handig zijn, maar een goed gekozen histogram of scatterplot met goede kleuren is in sommige situaties duidelijker! Denk aan x en y labels, een titel en units voor de assen.
+
 - reflecteer op de hypertuning. Wat werkt wel, wat werkt niet, wat vind je verrassend, wat zijn trade-offs die je ziet in de hypertuning, wat zijn afwegingen bij het kiezen van een uiteindelijke hyperparametersetting.
 
 Importeer de afbeeldingen in jouw antwoorden, reflecteer op je experiment, en geef een interpretatie en toelichting op wat je ziet.
+
+gvh:
+
+<figure>
+  <p align = "center">
+    <img src="img/GRUAtt_ray_tune.png" style="width:100%">
+    <figcaption align="center">
+      <b> Fig 3. GRUAtt met hidden_size=100 num_layers=10 num_heads=3 dropout=0.05</b>
+    </figcaption>
+  </p>
+</figure>
+
+Met de Ray tuning is een accuracy van bijna 99% behaald. De beste prestaties worden duidelijk weergegeven door de Ray tuning, waarbij een hidden size van rond de 160 het beste resultaat oplevert. Het dropout percentage dient rond de 2% te liggen. Het optimale aantal lagen is 2. Er was een fout in de code bij het aantal heads (num_heads was hardcoded op 4 en de config dictionary was uitgecommentarieerd), die later is opgelost. Omdat de score al zo hoog was, is er geen nieuwe run uitgevoerd en het optimum lijkt op 4 te liggen.
+
 
 ### 2c
 - Zorg dat jouw prijswinnende settings in een config komen te staan in `settings.py`, en train daarmee een model met een optimaal aantal epochs, daarvoor kun je `01_model_design.py` kopieren en hernoemen naar `2c_model_design.py`.

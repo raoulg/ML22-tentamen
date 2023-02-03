@@ -48,7 +48,7 @@ class GRUAttention(nn.Module):
         )
         self.attention = nn.MultiheadAttention(
             embed_dim=config["hidden_size"],
-            num_heads=4,#config["num_heads"], # if config["hidden_size"]%config["num_heads"]==0 else config["hidden_size"]//config["num_heads"],#config["num_heads"],
+            num_heads=config["num_heads"], 
             dropout=config["dropout"],
             batch_first=True,
         )
