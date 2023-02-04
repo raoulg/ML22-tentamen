@@ -176,7 +176,7 @@ gvh:
   </p>
 </figure>
 
-Met de Ray tuning is een accuracy van bijna 99% behaald. De beste prestaties worden duidelijk weergegeven door de Ray tuning, waarbij een hidden size van rond de 160 het beste resultaat oplevert. Het dropout percentage dient rond de 2% te liggen. Het optimale aantal lagen is 2. Er was een fout in de code bij het aantal heads (num_heads was hardcoded op 4 en de config dictionary was uitgecommentarieerd), die later is opgelost. Omdat de score al zo hoog was, is er geen nieuwe run uitgevoerd en het optimum lijkt op 4 te liggen.
+Met de Ray tuning is een accuracy van bijna 99% behaald. De beste prestaties worden duidelijk weergegeven door de Ray tuning, waarbij een hidden size van rond de 160 het beste resultaat oplevert. Het dropout percentage dient rond de 2% te liggen. Het optimale aantal num_layer is 2. Er was een fout in de code bij het aantal heads (num_heads was hardcoded op 4 en de config dictionary was uitgecommentarieerd in model.py), die later is opgelost. Omdat de score al zo hoog was, is er geen nieuwe run uitgevoerd en het optimum lijkt op 4 te liggen.
 
 
 ### 2c
