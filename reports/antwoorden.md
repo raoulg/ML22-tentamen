@@ -61,7 +61,7 @@ Combineren van RNN, LSTM en GRU heeft minder voordelen omdat ze op een vergelijk
 
 GVH: In dit voorbeeld wordt het gestures-probleem gebruikt. Het probleem lijkt op elkaar, maar heeft een langere tijdsreeks, meer features en het moet twee keer zoveel labels classificeren. Het probleem en de data is dus relatief complexer en verwacht wordt dat de parameters hoger liggen. De instellingen waarbij een goed resultaat wordt verwacht zijn:
 
-hidden_size=100, num_layers=3, num_heads=4, dropout=0.05
+hidden_size=100, num_layers=3, num_heads=4, dropout=0.05, learning rate = 1e-3
 
 Deze parameters kunnen variëren binnen de volgende bereiken:
 
@@ -156,6 +156,9 @@ Het aantal 4 geeft al goede resultaten. Door de afhankelijkheid met hidden_size 
 dropout: tune.uniform(0.0, 0.2)
 Een dropout van 0.05 werkt goed. Bovendien is er niet te veel data beschikbaar. Daarom is een maximum van 20% gekozen.
 
+Learning rate: = 1e-3
+Daarbij wordt de learning rate gehalveerd nadat 4 epoch het model niet verbeterd.
+
 
 
 ### 2b
@@ -182,7 +185,19 @@ Met de Ray tuning is een accuracy van bijna 99% behaald. De beste prestaties wor
 ### 2c
 - Zorg dat jouw prijswinnende settings in een config komen te staan in `settings.py`, en train daarmee een model met een optimaal aantal epochs, daarvoor kun je `01_model_design.py` kopieren en hernoemen naar `2c_model_design.py`.
 
-GVH: Het model staat klaar. met 03_result.py kan het model worden getest.
+GVH: 
+
+input=13,
+output=20,
+hidden_size=160,
+num_layers=2,
+num_heads=2,
+dropout=0.02,
+learning_rate=1e-3,
+patience=4,
+factor=0.5,
+
+Het model staat klaar. met 03_result.py kan het model worden getest.
 
 ## Vraag 3
 ### 3a
