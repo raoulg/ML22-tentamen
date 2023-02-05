@@ -22,7 +22,7 @@ GVH: Een Linear layer is geschikt voor gevectoriseerde data (met twee dimensies 
 
 - En voor dit specifieke probleem?
 
-GVH: In dit geval is er een extra dimensie aanwezig, tijd (3 dimensies in tensor), hierdoor speelt er een afhankelijkheid van de volgorde van het aanbieden van de data. Voordat een Linear layer optimaal kan functioneren, moet deze afhankelijkheid op een passende manier worden vertaald naar een of meerder variabelen. oftewel van 3 naar 2 dimensies gaan. Bovendien is de unitaantal niet afnemend van groot naar klein (in dit geval van 10 naar 20), waardoor er opnieuw informatie verloren gaat. De tweede hidden layers heeft 10 units, wat minimaal even groot zou moeten zijn als de output layer om informatieverlies te voorkomen.
+GVH: In dit geval is er een extra dimensie aanwezig, tijd (3 dimensies in tensor), hierdoor speelt er een afhankelijkheid van de volgorde van het aanbieden van de data. Voordat een Linear layer optimaal kan functioneren, moet deze afhankelijkheid op een passende manier worden vertaald naar een of meerder variabelen. oftewel van 3 naar 2 dimensies gaan. Bovendien is de unitaantal niet afnemend van groot naar klein (in dit geval van 100 naar 10 naar 20), waardoor er opnieuw informatie verloren gaat. De tweede hidden layers heeft 10 units, wat minimaal even groot zou moeten zijn als de output layer om informatieverlies te voorkomen.
 
 - Wat vind je van de keuzes die hij heeft gemaakt in de LinearConfig voor het aantal units ten opzichte van de data? En van de dropout?
 
