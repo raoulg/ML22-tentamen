@@ -1,0 +1,26 @@
+2023-01-22 10:36:50.739 | INFO     | tentamen.data.data_tools:get_file:61 - File C:\Users\gvanh\Git_documents\ML22-tentamen\data\raw\ArabicTrain.txt already exists, skip download
+2023-01-22 10:36:50.742 | INFO     | tentamen.data.data_tools:get_file:61 - File C:\Users\gvanh\Git_documents\ML22-tentamen\data\raw\ArabicTest.txt already exists, skip download
+2023-01-22 10:36:50.744 | INFO     | tentamen.data.datasets:get_arabic:34 - Loading data from C:\Users\gvanh\Git_documents\ML22-tentamen\data\raw\ArabicTrain.txt and C:\Users\gvanh\Git_documents\ML22-tentamen\data\raw\ArabicTest.txt
+2023-01-22 10:36:52.626 | INFO     | tentamen.data.datasets:get_arabic:50 - Returning trainstreamer, teststreamer
+2023-01-22 10:36:52.642 | INFO     | tentamen.train:dir_add_timestamp:159 - Logging to C:\Users\gvanh\Git_documents\ML22-tentamen\logsGRUAtt\20230122-1036
+2023-01-22 10:37:23.260 | INFO     | tentamen.train:trainloop:146 - Epoch 0 train 1.0171 test 0.4543 metric ['0.8631']
+2023-01-22 10:37:50.843 | INFO     | tentamen.train:trainloop:146 - Epoch 1 train 0.2134 test 0.3516 metric ['0.9085']
+2023-01-22 10:38:18.467 | INFO     | tentamen.train:trainloop:146 - Epoch 2 train 0.1311 test 0.1999 metric ['0.9421']
+2023-01-22 10:38:46.240 | INFO     | tentamen.train:trainloop:146 - Epoch 3 train 0.0673 test 0.1485 metric ['0.9559']
+2023-01-22 10:39:13.757 | INFO     | tentamen.train:trainloop:146 - Epoch 4 train 0.0518 test 0.1763 metric ['0.9508']
+2023-01-22 10:39:44.759 | INFO     | tentamen.train:trainloop:146 - Epoch 5 train 0.0376 test 0.1035 metric ['0.9678']
+2023-01-22 10:40:12.344 | INFO     | tentamen.train:trainloop:146 - Epoch 6 train 0.0552 test 0.2183 metric ['0.9352']
+2023-01-22 10:40:39.736 | INFO     | tentamen.train:trainloop:146 - Epoch 7 train 0.0274 test 0.0948 metric ['0.9715']
+2023-01-22 10:41:08.050 | INFO     | tentamen.train:trainloop:146 - Epoch 8 train 0.0297 test 0.1541 metric ['0.9577']
+2023-01-22 10:41:35.873 | INFO     | tentamen.train:trainloop:146 - Epoch 9 train 0.0180 test 0.1275 metric ['0.9628']
+2023-01-22 10:42:03.556 | INFO     | tentamen.train:trainloop:146 - Epoch 10 train 0.0083 test 0.1065 metric ['0.9619']
+2023-01-22 10:42:34.159 | INFO     | tentamen.train:trainloop:146 - Epoch 11 train 0.0132 test 0.1865 metric ['0.9582']
+2023-01-22 10:43:02.684 | INFO     | tentamen.train:trainloop:146 - Epoch 12 train 0.0455 test 0.1060 metric ['0.9623']
+2023-01-22 10:43:30.398 | INFO     | tentamen.train:trainloop:146 - Epoch 13 train 0.0261 test 0.1850 metric ['0.9554']
+2023-01-22 10:43:58.002 | INFO     | tentamen.train:trainloop:146 - Epoch 14 train 0.0084 test 0.0535 metric ['0.9807']
+2023-01-22 10:44:25.812 | INFO     | tentamen.train:trainloop:146 - Epoch 15 train 0.0113 test 0.1983 metric ['0.9513']
+2023-01-22 10:44:53.617 | INFO     | tentamen.train:trainloop:146 - Epoch 16 train 0.0308 test 0.0785 metric ['0.9743']
+2023-01-22 10:45:21.532 | INFO     | tentamen.train:trainloop:146 - Epoch 17 train 0.0126 test 0.0715 metric ['0.9766']
+2023-01-22 10:45:52.789 | INFO     | tentamen.train:trainloop:146 - Epoch 18 train 0.0038 test 0.0845 metric ['0.9752']
+2023-01-22 10:46:20.863 | INFO     | tentamen.train:trainloop:146 - Epoch 19 train 0.0170 test 0.1044 metric ['0.9738']
+2023-01-22 10:46:20.869 | INFO     | __main__:<module>:91 - save model to C:\Users\gvanh\Git_documents\ML22-tentamen\models\20230122-104620GRUAtt.pt
