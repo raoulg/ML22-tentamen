@@ -3,16 +3,16 @@ from loguru import logger
 
 from tentamen.data import datasets
 from tentamen.model import Accuracy
-from tentamen.settings import presets
+from tentamen.settings import presets_gruatt
 from tentamen.train import evalbatches
 
 if __name__ == "__main__":
-    logger.add(presets.logdir / "01.log")
+    logger.add(presets_gruatt.logdir / "01.log")
 
-    trainstreamer, teststreamer = datasets.get_arabic(presets)
+    trainstreamer, teststreamer = datasets.get_arabic(presets_gruatt)
 
-    timestamp = "20230117-183154"
-    path = presets.modeldir / (timestamp + presets.modelname)
+    timestamp = "20230129-092207"
+    path = presets_gruatt.modeldir / (timestamp + presets_gruatt.modelname)
     logger.info(f"loading model from {path}")
     model = torch.load(path)
 

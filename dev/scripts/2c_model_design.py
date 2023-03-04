@@ -21,37 +21,10 @@ if __name__ == "__main__":
             input=13,
             output=20,
             tunedir=presets_gruatt.logdir,
-            hidden_size=100,
-            num_layers=3,
-            num_heads=4,
-            dropout=0.05,
-        ),
-        GRUAttationConfig(
-            input=13,
-            output=20,
-            tunedir=presets_gruatt.logdir,
-            hidden_size=100,
-            num_layers=3,
-            num_heads=4,
-            dropout=0.3,
-        ),
-        GRUAttationConfig(
-            input=13,
-            output=20,
-            tunedir=presets_gruatt.logdir,
-            hidden_size=100,
-            num_layers=15,
-            num_heads=4,
-            dropout=0.05,
-        ),
-        GRUAttationConfig(
-            input=13,
-            output=20,
-            tunedir=presets_gruatt.logdir,
-            hidden_size=300,
-            num_layers=3,
-            num_heads=4,
-            dropout=0.05,
+            hidden_size=160,
+            num_layers=2,
+            num_heads=2,
+            dropout=0.02,
         ),
     ]
 
@@ -59,7 +32,7 @@ if __name__ == "__main__":
         model = GRUAttention(config.dict())  # type: ignore
 
         trainedmodel = trainloop(
-            epochs=17,
+            epochs=25,
             model=model,  # type: ignore
             optimizer=torch.optim.Adam,
             learning_rate=1e-3,
@@ -70,6 +43,8 @@ if __name__ == "__main__":
             log_dir=presets_gruatt.logdir,
             train_steps=len(trainstreamer),
             eval_steps=len(teststreamer),
+            patience=4,
+            factor=0.5,
         )
 
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
